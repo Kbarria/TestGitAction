@@ -2,7 +2,7 @@ name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
@@ -17,6 +17,17 @@ jobs:
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
 
+  test:
+        runs-on: ubuntu-latest
+        needs: build
+        steps:
+          - name: Checkout repository
+            uses: actions/checkout@v4
+    
+          - name: Deploy application
+            run: |
+              echo "Deploying application..."
+              # exito 
   deploy:
         runs-on: ubuntu-latest
         needs: test
@@ -27,5 +38,7 @@ jobs:
     
           - name: Deploy application
             run: |
-              echo "Deploying application...aprobacion manual OK"
+              echo "Deploying application.."
               # exito 
+          - name: Deploy Success
+            run: echo "::notice::Deploy ✔️✔️APROBACION MANUAL OK✔️✔️ ✔️"
